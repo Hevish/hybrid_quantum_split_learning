@@ -141,3 +141,20 @@ The data loaders expect pre-split K-fold data on disk:
 - **Image**: `data_kfold/fold{fold}/train_images.pt`, `data_kfold/fold{fold}/train_labels.pt`, etc.
 - **Multi-client image**: Uses `StratifiedShuffleSplit` to partition training data at runtime
 - **Audio**: `data/fold_{k}/train/{class}/` and `data/fold_{k}/test/{class}/` (ImageFolder layout with spectrogram PNGs)
+
+## Citation
+
+If you use this code, please cite:
+
+```bibtex
+@article{cowlessur2025hybrid,
+  title={A hybrid quantum neural network for split learning},
+  author={Cowlessur, Hevish and Thapa, Chandra and Alpcan, Tansu and Camtepe, Seyit},
+  journal={Quantum Machine Intelligence},
+  volume={7},
+  number={2},
+  pages={76},
+  year={2025},
+  publisher={Springer}
+}
+```
