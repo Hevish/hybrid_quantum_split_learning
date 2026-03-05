@@ -121,7 +121,7 @@ python run_experiment.py --dataset mnist --mode reconstruction --variant classic
 
 ## Quantum Circuit
 
-2-qubit **data-reuploading** ansatz with 3 stages per layer:
+2-qubit **efficient data-loading** ansatz with 3 stages per layer:
 
 1. RX(input₁) on each qubit → trainable RZ → CZ entanglement
 2. RX(input₂) on each qubit → trainable RY → CZ entanglement
