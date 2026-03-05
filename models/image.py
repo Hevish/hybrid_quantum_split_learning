@@ -1,4 +1,4 @@
-"""
+﻿"""
 Neural-network models for **image** datasets (MNIST, Fashion-MNIST).
 
 The client runs a small CNN encoder; the server runs either a classical or
@@ -11,7 +11,7 @@ import torch.nn as nn
 from quantum_circuit import create_quantum_layer
 
 
-# ── CNN Encoder (client side) ────────────────────────────────────────────
+# -- CNN Encoder (client side) -------------------------------------------------
 
 class ImageEncoder(nn.Module):
     """Two-layer CNN that produces a low-dimensional feature vector."""
@@ -33,7 +33,7 @@ class ImageEncoder(nn.Module):
         return x
 
 
-# ── Classical server decoder ────────────────────────────────────────────
+# -- Classical server decoder --------------------------------------------------
 
 class ImageClassicalServer(nn.Module):
     """Purely classical server network for multi-class classification."""
@@ -51,10 +51,10 @@ class ImageClassicalServer(nn.Module):
         return self.model(x)
 
 
-# ── Hybrid server decoder ───────────────────────────────────────────────
+# -- Hybrid server decoder -----------------------------------------------------
 
 class ImageHybridServer(nn.Module):
-    """Hybrid server: quantum layer → classical head."""
+    """Hybrid server: quantum layer -> classical head."""
 
     def __init__(self, n_qubits: int = 2, n_layers: int = 1,
                  num_classes: int = 10,
@@ -72,7 +72,7 @@ class ImageHybridServer(nn.Module):
         return self.model(x)
 
 
-# ── Centralized classical ───────────────────────────────────────────────
+# -- Centralized classical -----------------------------------------------------
 
 class ImageCentralizedClassical(nn.Module):
     """Full CNN without split (classical baseline)."""
@@ -101,7 +101,7 @@ class ImageCentralizedClassical(nn.Module):
         return x
 
 
-# ── Centralized hybrid ──────────────────────────────────────────────────
+# -- Centralized hybrid --------------------------------------------------------
 
 class ImageCentralizedHybrid(nn.Module):
     """Full CNN + quantum layer (hybrid baseline)."""
@@ -133,7 +133,7 @@ class ImageCentralizedHybrid(nn.Module):
         return x
 
 
-# ── Laplacian noise layer (for inference-time noise experiments) ─────────
+# -- Laplacian noise layer (for inference-time noise experiments) ---------------
 
 class LaplacianNoiseLayer(nn.Module):
     """Adds Laplacian noise to the activation tensor."""

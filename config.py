@@ -1,4 +1,4 @@
-"""
+﻿"""
 Configuration for Hybrid Quantum Split Learning (HQSL) experiments.
 
 Centralises all hyperparameters, dataset-specific settings, and device /
@@ -11,7 +11,7 @@ import random
 import numpy as np
 import torch
 
-# ── Reproducibility ──────────────────────────────────────────────────────
+# -- Reproducibility ------------------------------------------------------
 DEFAULT_SEED = 150993
 
 
@@ -26,7 +26,7 @@ def set_seed(seed: int = DEFAULT_SEED):
         torch.backends.cudnn.deterministic = True
 
 
-# ── Device ───────────────────────────────────────────────────────────────
+# -- Device --------------------------------------------------------------------
 def get_device(gpu_id: int = 0) -> torch.device:
     """Return a CUDA device if available, else CPU."""
     if torch.cuda.is_available():
@@ -36,12 +36,12 @@ def get_device(gpu_id: int = 0) -> torch.device:
     return torch.device("cpu")
 
 
-# ── Shared training hyper-parameters ─────────────────────────────────────
+# -- Shared training hyper-parameters ------------------------------------------
 LEARNING_RATE = 0.001
 BATCH_SIZE = 32
 NUM_FOLDS = 5
 
-# ── Dataset-specific configurations ──────────────────────────────────────
+# -- Dataset-specific configurations -------------------------------------------
 # Each entry stores everything that differs between datasets.
 
 DATASET_CONFIGS = {
@@ -97,11 +97,11 @@ DATASET_CONFIGS = {
         "split_dim": 3,
         "server_post_quantum": [64, 32],
         "epochs": 50,
-        "data_dir": "data",          # contains fold_1/ … fold_5/
+        "data_dir": "data",          # contains fold_1/ ... fold_5/
         "seed": 61096,
     },
 }
 
-# ── Quantum-circuit defaults ─────────────────────────────────────────────
+# -- Quantum-circuit defaults --------------------------------------------------
 N_QUBITS = 2
 N_LAYERS = 1

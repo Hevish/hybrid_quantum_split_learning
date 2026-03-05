@@ -1,5 +1,5 @@
-"""
-Split-learning training loop — single client, single server.
+﻿"""
+Split-learning training loop -- single client, single server.
 
 The client (encoder) and server (decoder) pass gradients across the *split
 point*:  the client sends activations forward, the server back-propagates
@@ -30,14 +30,14 @@ def train_split(
     tag: str = "split",
     save_checkpoints: bool = False,
 ):
-    """K-fold split-learning training (1 client → 1 server).
+    """K-fold split-learning training (1 client -> 1 server).
 
     Parameters
     ----------
     encoder_init, decoder_init : nn.Module
         Initial models (deep-copied per fold).
     data_loader_fn : callable
-        ``fn(fold)`` → tabular ``(x_tr, y_tr, x_te, y_te)``
+        ``fn(fold)`` -> tabular ``(x_tr, y_tr, x_te, y_te)``
                       or image ``(train_loader, val_loader)``.
     save_checkpoints : bool
         If True, save encoder state_dict after each fold (useful for
@@ -78,12 +78,12 @@ def train_split(
             os.makedirs(ckpt_dir, exist_ok=True)
             torch.save(encoder.state_dict(),
                        os.path.join(ckpt_dir, f"encoder_fold_{fold}.pt"))
-            print(f"  Encoder checkpoint saved → {ckpt_dir}")
+            print(f"  Encoder checkpoint saved -> {ckpt_dir}")
 
 
-# ═════════════════════════════════════════════════════════════════════════
+# =========================================================================
 #  Internal helpers
-# ═════════════════════════════════════════════════════════════════════════
+# =========================================================================
 
 def _forward_backward_split(encoder, decoder, opt_enc, opt_dec, criterion,
                             inputs, targets, device):
@@ -160,4 +160,4 @@ def _save_results(records, results_dir, filename):
     os.makedirs(results_dir, exist_ok=True)
     path = os.path.join(results_dir, filename)
     pd.DataFrame(records).to_excel(path, index=False, engine="openpyxl")
-    print(f"  Results saved → {path}")
+    print(f"  Results saved -> {path}")

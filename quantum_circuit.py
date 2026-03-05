@@ -22,7 +22,7 @@ def create_quantum_layer(
     2-qubit case) which are encoded via RX gates interleaved with trainable
     rotation gates and CZ entangling gates.  Per layer the structure is::
 
-        RX(in[0]) → RZ(w0)  ──CZ──  RX(in[1]) → RY(w1)  ──CZ──  RX(in[2]) → RZ(w2)
+        RX(in[0]) -> RZ(w0)  --CZ--  RX(in[1]) -> RY(w1)  --CZ--  RX(in[2]) -> RZ(w2)
 
     Parameters
     ----------

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Data-loading utilities for all datasets.
 
 * **Tabular** (botnet_dga, breast_cancer): CSV files in ``folder{fold}/``
@@ -20,9 +20,9 @@ from sklearn.model_selection import StratifiedShuffleSplit
 from torchvision import datasets, transforms
 
 
-# ═════════════════════════════════════════════════════════════════════════
+# =========================================================================
 #  Tabular datasets
-# ═════════════════════════════════════════════════════════════════════════
+# =========================================================================
 
 def load_tabular_fold(data_root: str, fold: int):
     """Load train/test splits for one K-fold iteration.
@@ -47,7 +47,7 @@ def load_tabular_fold_multi_client(data_root: str, fold: int, n_clients: int):
 
     Returns
     -------
-    client_x : list[np.ndarray]   – one array per client
+    client_x : list[np.ndarray]   - one array per client
     client_y : list[np.ndarray]
     x_test, y_test : np.ndarray
     """
@@ -61,9 +61,9 @@ def load_tabular_fold_multi_client(data_root: str, fold: int, n_clients: int):
     return client_x, client_y, x_test, y_test
 
 
-# ═════════════════════════════════════════════════════════════════════════
+# =========================================================================
 #  Image datasets  (pre-saved DataLoaders)
-# ═════════════════════════════════════════════════════════════════════════
+# =========================================================================
 
 def load_image_fold(data_root: str, fold: int):
     """Load pre-saved train/val DataLoaders for one fold.
@@ -85,7 +85,7 @@ def load_image_fold_multi_client(data_root: str, fold: int, n_clients: int,
 
     Returns
     -------
-    train_loaders : list[DataLoader]  – one per client
+    train_loaders : list[DataLoader]  - one per client
     val_loader : DataLoader
     """
     train_path = os.path.join(data_root, f"train_fold_{fold}.pt")
@@ -112,9 +112,9 @@ def load_image_fold_multi_client(data_root: str, fold: int, n_clients: int,
     return train_loaders, val_loader
 
 
-# ═════════════════════════════════════════════════════════════════════════
+# =========================================================================
 #  Audio dataset  (Speech Commands spectrograms via ImageFolder)
-# ═════════════════════════════════════════════════════════════════════════
+# =========================================================================
 
 _AUDIO_TRANSFORM = transforms.Compose([
     transforms.Resize((28, 28)),
@@ -126,7 +126,7 @@ _AUDIO_TRANSFORM = transforms.Compose([
 def load_audio_fold(data_root: str, fold: int, batch_size: int = 32):
     """Load train/test DataLoaders for one audio fold.
 
-    Expects ``data_root/fold_{fold}/train/`` and ``…/test/`` in ImageFolder
+    Expects ``data_root/fold_{fold}/train/`` and ``.../test/`` in ImageFolder
     layout (class sub-directories).
 
     Returns

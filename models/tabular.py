@@ -2,7 +2,7 @@
 Neural-network models for **tabular** datasets (botnet_dga, breast_cancer).
 
 All four variants share the same backbone:
-  Encoder  →  [quantum layer or classical bottleneck]  →  Decoder head
+  Encoder  ->  [quantum layer or classical bottleneck]  ->  Decoder head
 
 The encoder is always on the client side; the decoder (server) comes in a
 classical or hybrid (quantum) flavour.
@@ -14,7 +14,7 @@ import torch.nn as nn
 from quantum_circuit import create_quantum_layer
 
 
-# ── Encoder (client) ─────────────────────────────────────────────────────
+# -- Encoder (client) ----------------------------------------------------------
 
 class TabularEncoder(nn.Module):
     """MLP encoder that maps raw features to a low-dimensional split vector."""
@@ -35,7 +35,7 @@ class TabularEncoder(nn.Module):
         return self.encoder(x)
 
 
-# ── Classical decoder (server) ───────────────────────────────────────────
+# -- Classical decoder (server) ------------------------------------------------
 
 class TabularClassicalDecoder(nn.Module):
     """Purely classical server-side decoder for binary classification."""
@@ -57,7 +57,7 @@ class TabularClassicalDecoder(nn.Module):
         return self.decoder(x)
 
 
-# ── Hybrid decoder (server) ─────────────────────────────────────────────
+# -- Hybrid decoder (server) ---------------------------------------------------
 
 class TabularHybridDecoder(nn.Module):
     """Hybrid server decoder: quantum layer followed by classical head."""
@@ -82,7 +82,7 @@ class TabularHybridDecoder(nn.Module):
         return self.decoder(x)
 
 
-# ── Centralized models (encoder + decoder in one) ───────────────────────
+# -- Centralized models (encoder + decoder in one) ----------------------------
 
 class TabularCentralizedClassical(nn.Module):
     """End-to-end classical model (no split)."""

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 """
 Unified entry point for all HQSL experiments.
 
@@ -44,7 +44,7 @@ from config import (
     get_device, set_seed,
 )
 
-# ── Model factories ──────────────────────────────────────────────────────
+# -- Model factories ------------------------------------------------------
 
 def _build_tabular_models(cfg, variant, device):
     from models.tabular import (
@@ -87,7 +87,7 @@ def _build_image_models(cfg, variant, device, n_layers=None):
     return centralized, encoder, decoder
 
 
-# ── Data-loader factories ────────────────────────────────────────────────
+# -- Data-loader factories ------------------------------------------------
 
 def _tabular_data_fn(data_root):
     from data_utils import load_tabular_fold
@@ -111,7 +111,7 @@ def _image_multi_data_fn(data_root, n_clients):
         data_root, fold, n_clients, BATCH_SIZE)
 
 
-# ── Main ─────────────────────────────────────────────────────────────────
+# -- Main -----------------------------------------------------------------
 
 def main():
     parser = argparse.ArgumentParser(
@@ -168,7 +168,7 @@ def main():
         centralized, encoder, decoder = _build_image_models(
             cfg, args.variant, device, n_layers)
 
-    # ── Helper: pick the right data loader factory ──────────────────
+    # -- Helper: pick the right data loader factory ------------------
     def _get_loader_fn():
         if is_tabular:
             return _tabular_data_fn(args.data_root)
@@ -193,7 +193,7 @@ def main():
                                         cfg["data_dir"]))
         return _image_multi_data_fn(data_dir, n)
 
-    # ── Centralized ──────────────────────────────────────────────────
+    # -- Centralized --------------------------------------------------
     if args.mode == "centralized":
         from trainers.centralized import train_centralized
         train_centralized(
@@ -203,7 +203,7 @@ def main():
             results_dir=results_dir, tag=tag,
         )
 
-    # ── Split (single client) ───────────────────────────────────────
+    # -- Split (single client) ---------------------------------------
     elif args.mode == "split":
         from trainers.split_single import train_split
         train_split(
@@ -214,7 +214,7 @@ def main():
             save_checkpoints=True,
         )
 
-    # ── Split (N clients) ───────────────────────────────────────────
+    # -- Split (N clients) -------------------------------------------
     elif args.mode == "split_multi":
         from trainers.split_multi import train_split_multi
         N = args.n_clients
@@ -225,7 +225,7 @@ def main():
             results_dir=results_dir, tag=tag,
         )
 
-    # ── Noise inference (train clean, test with noise) ───────────────
+    # -- Noise inference (train clean, test with noise) ---------------
     elif args.mode == "noise_inference":
         from trainers.noise_inference import train_and_evaluate_with_noise
         train_and_evaluate_with_noise(
@@ -236,7 +236,7 @@ def main():
             noise_scales=args.noise_scales,
         )
 
-    # ── Reconstruction attack ────────────────────────────────────────
+    # -- Reconstruction attack ----------------------------------------
     elif args.mode == "reconstruction":
         from models.adversary import AdversaryGenerator
         from models.image import ImageEncoder

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Reconstruction-attack pipeline for image datasets.
 
 1. Load a **pre-trained** client encoder checkpoint.
@@ -59,8 +59,8 @@ def run_reconstruction_attack(
     opt = optim.SGD(adv_model.parameters(), lr=lr, momentum=momentum)
     recon_loss = nn.L1Loss()
 
-    # ── Phase 1: train adversary (noise-free) ────────────────────────
-    print("Training adversary model …")
+    # -- Phase 1: train adversary (noise-free) ------------------------
+    print("Training adversary model ...")
     adv_model.train()
     for epoch in range(1, epochs + 1):
         running = 0.0
@@ -78,8 +78,8 @@ def run_reconstruction_attack(
         if epoch % 50 == 0 or epoch == 1:
             print(f"  Epoch {epoch}/{epochs}  loss={running:.4f}")
 
-    # ── Phase 2: evaluate under varying noise ────────────────────────
-    print("\nEvaluating reconstruction under Laplacian noise …")
+    # -- Phase 2: evaluate under varying noise ------------------------
+    print("\nEvaluating reconstruction under Laplacian noise ...")
     adv_model.eval()
     results = []
 
@@ -109,11 +109,11 @@ def run_reconstruction_attack(
             if include_lsd:
                 row["LSD"] = m["lsd"][0]
             results.append(row)
-            print(f"  μ={loc:.3f} σ={scale:.3f}  "
+            print(f"  mu={loc:.3f} sigma={scale:.3f}  "
                   f"MSE={row['MSE']:.4f}  CosDist={row['CosDist']:.4f}  "
                   f"DSSIM={row['DSSIM']:.4f}")
 
     os.makedirs(os.path.dirname(results_path) or ".", exist_ok=True)
     pd.DataFrame(results).to_excel(results_path, index=False,
                                    engine="openpyxl")
-    print(f"\nResults saved → {results_path}")
+    print(f"\nResults saved -> {results_path}")

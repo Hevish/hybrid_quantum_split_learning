@@ -1,5 +1,5 @@
-"""
-Split-learning training loop — **N clients**, single server.
+﻿"""
+Split-learning training loop -- **N clients**, single server.
 
 All N clients share one encoder architecture (same weights) and one
 server decoder.  Clients train round-robin within each global epoch.
@@ -33,7 +33,7 @@ def train_split_multi(
     Parameters
     ----------
     data_loader_fn : callable
-        ``fn(fold)`` → tabular ``(client_x, client_y, x_test, y_test)``
+        ``fn(fold)`` -> tabular ``(client_x, client_y, x_test, y_test)``
                       or image ``(train_loaders, val_loader)``
         where ``client_x`` / ``train_loaders`` is a list of length N.
     """
@@ -50,7 +50,7 @@ def train_split_multi(
         records = []
 
         for epoch in range(1, epochs + 1):
-            # ── Round-robin training across clients ──────────────────
+            # -- Round-robin training across clients ------------------
             for c in range(n_clients):
                 encoder.train(); decoder.train()
                 if task == "binary":
@@ -64,7 +64,7 @@ def train_split_multi(
                         data[0][c], device,
                     )
 
-            # ── Evaluation on the shared test set ────────────────────
+            # -- Evaluation on the shared test set --------------------
             encoder.eval(); decoder.eval()
             row = _eval(encoder, decoder, criterion, data, batch_size,
                         device, task, epoch)
@@ -77,9 +77,9 @@ def train_split_multi(
         break
 
 
-# ═════════════════════════════════════════════════════════════════════════
+# =========================================================================
 #  Internal helpers
-# ═════════════════════════════════════════════════════════════════════════
+# =========================================================================
 
 def _split_step(encoder, decoder, opt_enc, opt_dec, criterion,
                 inputs, targets):
@@ -153,4 +153,4 @@ def _save(records, results_dir, filename):
     os.makedirs(results_dir, exist_ok=True)
     path = os.path.join(results_dir, filename)
     pd.DataFrame(records).to_excel(path, index=False, engine="openpyxl")
-    print(f"  Results saved → {path}")
+    print(f"  Results saved -> {path}")

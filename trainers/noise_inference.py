@@ -1,4 +1,4 @@
-"""
+﻿"""
 Noise-robustness evaluation for split learning.
 
 1. Train encoder + decoder **noise-free** across K folds.
@@ -51,8 +51,8 @@ def train_and_evaluate_with_noise(
     client_models = []
     server_models = []
 
-    # ── Phase 1: train noise-free ────────────────────────────────────
-    print("Phase 1: Training encoder/decoder noise-free …")
+    # -- Phase 1: train noise-free ------------------------------------
+    print("Phase 1: Training encoder/decoder noise-free ...")
     for fold in range(1, num_folds + 1):
         encoder = copy.deepcopy(encoder_init).to(device)
         decoder = copy.deepcopy(decoder_init).to(device)
@@ -95,8 +95,8 @@ def train_and_evaluate_with_noise(
         client_models.append(encoder)
         server_models.append(decoder)
 
-    # ── Phase 2: evaluate under noise grid ───────────────────────────
-    print("\nPhase 2: Evaluating with Laplacian noise …")
+    # -- Phase 2: evaluate under noise grid ---------------------------
+    print("\nPhase 2: Evaluating with Laplacian noise ...")
     os.makedirs(results_dir, exist_ok=True)
 
     for mean in noise_means:

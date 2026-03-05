@@ -1,6 +1,6 @@
-# HQSL — Hybrid Quantum Split Learning
+﻿# HQSL: Hybrid Quantum Split Learning
 
-A clean, modular implementation of **Hybrid Quantum Split Learning (HQSL)** —
+A clean, modular implementation of **Hybrid Quantum Split Learning (HQSL)** 
 designed for anyone who wants to experiment with quantum-enhanced split learning
 across tabular, image, and audio datasets.
 
@@ -23,30 +23,30 @@ starting point.
 ## Project Structure
 
 ```
-HQSL_cleaned/
-├── config.py                 # Seeds, device, hyperparameters, dataset configs
-├── quantum_circuit.py        # 2-qubit data-reuploading PennyLane circuit
-├── data_utils.py             # Data loaders (tabular + image + audio, single/multi-client)
-├── metrics.py                # Reconstruction metrics (MSE, cosine dist, DSSIM, LSD)
-├── run_experiment.py         # Main CLI entry point
-│
-├── models/
-│   ├── tabular.py            # Encoder/Decoder/Centralized for tabular data
-│   ├── image.py              # CNN Encoder/Server/Centralized for images & audio
-│   └── adversary.py          # Adversary generator for reconstruction attacks
-│
-├── trainers/
-│   ├── centralized.py        # Centralized training loop (K-fold)
-│   ├── split_single.py       # Split learning, 1 client ↔ 1 server
-│   ├── split_multi.py        # Split learning, N clients ↔ 1 server
-│   ├── noise_inference.py    # Train noise-free, test with Laplacian noise
-│   └── reconstruction.py     # Reconstruction attack pipeline
-│
-└── scripts/
-    ├── run_tabular.sh        # Example: tabular dataset experiments
-    ├── run_image.sh          # Example: image dataset experiments
-    ├── run_audio.sh          # Example: audio dataset experiments
-    └── run_reconstruction.sh # Example: reconstruction attacks
+hybrid_quantum_split_learning/
+|-- config.py                 # Seeds, device, hyperparameters, dataset configs
+|-- quantum_circuit.py        # 2-qubit data-loading PennyLane circuit
+|-- data_utils.py             # Data loaders (tabular + image + audio, single/multi-client)
+|-- metrics.py                # Reconstruction metrics (MSE, cosine dist, DSSIM, LSD)
+|-- run_experiment.py         # Main CLI entry point
+|
+|-- models/
+|   |-- tabular.py            # Encoder/Decoder/Centralized for tabular data
+|   |-- image.py              # CNN Encoder/Server/Centralized for images & audio
+|   `-- adversary.py          # Adversary generator for reconstruction attacks
+|
+|-- trainers/
+|   |-- centralized.py        # Centralized training loop (K-fold)
+|   |-- split_single.py       # Split learning, 1 client <-> 1 server
+|   |-- split_multi.py        # Split learning, N clients <-> 1 server
+|   |-- noise_inference.py    # Train noise-free, test with Laplacian noise
+|   `-- reconstruction.py     # Reconstruction attack pipeline
+|
+`-- scripts/
+    |-- run_tabular.sh        # Example: tabular dataset experiments
+    |-- run_image.sh          # Example: image dataset experiments
+    |-- run_audio.sh          # Example: audio dataset experiments
+    `-- run_reconstruction.sh # Example: reconstruction attacks
 ```
 
 ## Datasets
@@ -55,17 +55,17 @@ HQSL_cleaned/
 |---------------|---------|-------------|---------|----------|
 | `botnet_dga`  | Tabular | 7 features  | 2       | BCE      |
 | `breast_cancer` | Tabular | 7 features | 2       | BCE      |
-| `mnist`       | Image   | 1×28×28     | 10      | CrossEntropy |
-| `fmnist`      | Image   | 1×28×28     | 10      | CrossEntropy |
-| `audio`       | Audio   | 1×28×28 spectrogram | 2 | CrossEntropy |
+| `mnist`       | Image   | 1x28x28     | 10      | CrossEntropy |
+| `fmnist`      | Image   | 1x28x28     | 10      | CrossEntropy |
+| `audio`       | Audio   | 1x28x28 spectrogram | 2 | CrossEntropy |
 
 ## Experiment Modes
 
-- **`centralized`** — Standard training, no split (baseline)
-- **`split`** — Split learning: client encoder ↔ server decoder, K-fold CV
-- **`split_multi`** — Split learning with N clients, round-robin training
-- **`reconstruction`** — Adversary reconstructs inputs from split activations
-- **`noise_inference`** — Train noise-free, evaluate under Laplacian noise grid (audio)
+- **`centralized`** -- Standard training, no split (baseline)
+- **`split`** -- Split learning: client encoder <-> server decoder, K-fold CV
+- **`split_multi`** -- Split learning with N clients, round-robin training
+- **`reconstruction`** -- Adversary reconstructs inputs from split activations
+- **`noise_inference`** -- Train noise-free, evaluate under Laplacian noise grid (audio)
 
 Each mode supports `--variant classical` or `--variant hybrid` (quantum layer on server).
 
@@ -123,11 +123,11 @@ python run_experiment.py --dataset mnist --mode reconstruction --variant classic
 
 2-qubit **efficient data-loading** ansatz with 3 stages per layer:
 
-1. RX(input₁) on each qubit → trainable RZ → CZ entanglement
-2. RX(input₂) on each qubit → trainable RY → CZ entanglement
-3. RX(input₃) on each qubit → trainable RZ
+1. RX(input_1) on each qubit -> trainable RZ -> CZ entanglement
+2. RX(input_2) on each qubit -> trainable RY -> CZ entanglement
+3. RX(input_3) on each qubit -> trainable RZ
 
-Each layer has **6 trainable parameters** (θ) and accepts **3 input dimensions**.
+Each layer has **6 trainable parameters** and accepts **3 input dimensions**.
 
 - Returns `qml.qnn.TorchLayer` for seamless PyTorch integration
 

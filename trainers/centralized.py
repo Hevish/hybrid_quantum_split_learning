@@ -1,4 +1,4 @@
-"""
+﻿"""
 Centralized training loop (no split).
 
 Works for both tabular (BCELoss, binary) and image (CrossEntropyLoss,
@@ -37,8 +37,8 @@ def train_centralized(
         - tabular: ``(x_train, y_train, x_test, y_test)`` as numpy arrays.
         - image:   ``(train_loader, val_loader)`` as DataLoaders.
     task : str
-        ``"binary"``  → BCELoss, sigmoid output, accuracy via rounding.
-        ``"multiclass"`` → CrossEntropyLoss, argmax output, weighted F1.
+        ``"binary"``  -> BCELoss, sigmoid output, accuracy via rounding.
+        ``"multiclass"`` -> CrossEntropyLoss, argmax output, weighted F1.
     """
     criterion = (torch.nn.BCELoss() if task == "binary"
                  else torch.nn.CrossEntropyLoss())
@@ -51,7 +51,7 @@ def train_centralized(
         records = []
 
         for epoch in range(1, epochs + 1):
-            # ── Training ─────────────────────────────────────────────
+            # -- Training ---------------------------------------------
             model.train()
             if task == "binary":
                 _train_binary_epoch(model, optimizer, criterion,
@@ -60,7 +60,7 @@ def train_centralized(
                 _train_multiclass_epoch(model, optimizer, criterion,
                                         data[0], device)
 
-            # ── Evaluation ───────────────────────────────────────────
+            # -- Evaluation -------------------------------------------
             model.eval()
             row = _evaluate(model, criterion, data, batch_size, device, task,
                             epoch)
@@ -70,7 +70,7 @@ def train_centralized(
         _save_results(records, results_dir, f"{tag}_fold_{fold}.xlsx", task)
 
 
-# ── Helpers ──────────────────────────────────────────────────────────────
+# -- Helpers -------------------------------------------------------------------
 
 def _train_binary_epoch(model, optimizer, criterion, x, y, bs, device):
     for i in range(0, len(x), bs):
@@ -140,4 +140,4 @@ def _save_results(records, results_dir, filename, task):
     df = pd.DataFrame(records)
     path = os.path.join(results_dir, filename)
     df.to_excel(path, index=False, engine="openpyxl")
-    print(f"  Results saved → {path}")
+    print(f"  Results saved -> {path}")

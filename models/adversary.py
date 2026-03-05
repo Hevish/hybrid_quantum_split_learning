@@ -1,4 +1,4 @@
-"""
+﻿"""
 Adversary model for reconstruction attacks on image datasets.
 
 The adversary receives the low-dimensional activations transmitted from
@@ -12,7 +12,7 @@ import torch.nn as nn
 
 
 class ResnetBlock(nn.Module):
-    """Residual convolution block (reflect-pad → conv → BN → ReLU → ...)."""
+    """Residual convolution block (reflect-pad -> conv -> BN -> ReLU -> ...)."""
 
     def __init__(self, dim: int, padding_type: str = "reflect",
                  norm_layer=nn.BatchNorm2d, use_dropout: bool = False,
@@ -49,7 +49,7 @@ class ResnetBlock(nn.Module):
 
 
 class AdversaryGenerator(nn.Module):
-    """Generates a 1×28×28 reconstruction from a small activation vector.
+    """Generates a 1x28x28 reconstruction from a small activation vector.
 
     Parameters
     ----------
@@ -94,7 +94,7 @@ class AdversaryGenerator(nn.Module):
                                          output_padding=1, bias=use_bias),
                       norm_layer(ngf * mult // 2), nn.ReLU(True)]
 
-        # Extra up-sampling to reach 28×28
+        # Extra up-sampling to reach 28x28
         n_extra = 4 - n_downsampling
         for i in range(n_extra):
             model += [nn.ConvTranspose2d(ngf, ngf, 3, stride=2, padding=1,
