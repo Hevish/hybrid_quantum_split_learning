@@ -20,6 +20,8 @@ datasets, or simply explore how parameterised quantum circuits can be
 integrated into a split learning pipeline, this codebase is a good
 starting point.
 
+> **Note:** This repository was made public following its publication.
+
 ## Project Structure
 
 ```
