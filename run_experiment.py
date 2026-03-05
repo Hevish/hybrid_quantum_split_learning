@@ -40,7 +40,7 @@ import torch
 
 from config import (
     BATCH_SIZE, DATASET_CONFIGS, LEARNING_RATE, NUM_FOLDS,
-    N_LAYERS, N_LAYERS_IMAGE, N_QUBITS,
+    N_LAYERS, N_QUBITS,
     get_device, set_seed,
 )
 
@@ -157,12 +157,7 @@ def main():
     task = "binary" if cfg["type"] == "tabular" else "multiclass"
     is_tabular = cfg["type"] == "tabular"
 
-    n_layers = args.n_layers
-    if n_layers is None:
-        if not is_tabular and args.mode == "split":
-            n_layers = N_LAYERS_IMAGE   # 3 layers for image kfold split
-        else:
-            n_layers = N_LAYERS         # 1 layer otherwise
+    n_layers = args.n_layers if args.n_layers is not None else N_LAYERS
 
     # Build models
     if is_tabular:

@@ -104,5 +104,4 @@ DATASET_CONFIGS = {
 
 # ── Quantum-circuit defaults ─────────────────────────────────────────────
 N_QUBITS = 2
-N_LAYERS = 1           # single layer for tabular / N-client image
-N_LAYERS_IMAGE = 3     # deeper circuit for image split (kfold) experiments
+N_LAYERS = 1
