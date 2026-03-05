@@ -18,10 +18,11 @@ def create_quantum_layer(
 ):
     """Create a PennyLane TorchLayer with a data-reuploading circuit.
 
-    The circuit expects ``n_qubits + 1`` classical inputs (for the 2-qubit
-    default that is 3 inputs) which are re-uploaded into every layer
-    together with trainable RZ / RY / RZ rotations.  Consecutive layers are
-    connected by CZ entangling gates.
+    The circuit expects 3 classical inputs (``n_qubits + 1`` for the default
+    2-qubit case) which are encoded via RX gates interleaved with trainable
+    rotation gates and CZ entangling gates.  Per layer the structure is::
+
+        RX(in[0]) → RZ(w0)  ──CZ──  RX(in[1]) → RY(w1)  ──CZ──  RX(in[2]) → RZ(w2)
 
     Parameters
     ----------
@@ -47,15 +48,20 @@ def create_quantum_layer(
     @qml.qnode(dev, diff_method="parameter-shift", interface="torch")
     def circuit(inputs, weights):
         for layer in range(n_layers):
+            # Stage 1: encode input[0], apply trainable RZ
             for q in range(n_qubits):
-                qml.RZ(inputs[0], wires=q)
-                qml.RY(inputs[1], wires=q)
-                qml.RZ(inputs[2], wires=q)
+                qml.RX(inputs[0], wires=q)
                 qml.RZ(weights[layer][3 * q], wires=q)
+            qml.CZ(wires=[0, 1])
+            # Stage 2: encode input[1], apply trainable RY
+            for q in range(n_qubits):
+                qml.RX(inputs[1], wires=q)
                 qml.RY(weights[layer][3 * q + 1], wires=q)
+            qml.CZ(wires=[0, 1])
+            # Stage 3: encode input[2], apply trainable RZ
+            for q in range(n_qubits):
+                qml.RX(inputs[2], wires=q)
                 qml.RZ(weights[layer][3 * q + 2], wires=q)
-            if layer < n_layers - 1:
-                qml.CZ(wires=[0, 1])
         return [qml.expval(qml.PauliY(i)) for i in range(n_qubits)]
 
     qlayer = qml.qnn.TorchLayer(circuit, weight_shapes)
