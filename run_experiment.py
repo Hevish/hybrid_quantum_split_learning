@@ -25,6 +25,10 @@ python run_experiment.py --dataset audio --mode noise_inference --variant classi
 # Reconstruction attack on MNIST (classical encoder)
 python run_experiment.py --dataset mnist --mode reconstruction --variant classical \\
     --encoder_checkpoint path/to/encoder.pt
+
+# Custom Laplacian noise grid (applies to reconstruction & noise_inference)
+python run_experiment.py --dataset audio --mode noise_inference --variant hybrid \\
+    --noise_means 0 3.14 6.28 --noise_scales 0.01 0.1 1.0
 """
 
 import argparse
@@ -130,6 +134,11 @@ def main():
     parser.add_argument("--results_dir", type=str, default=None)
     parser.add_argument("--data_root", type=str, default=".",
                         help="Root dir containing folder1/, data_kfold/ etc.")
+    # Noise parameters (for reconstruction & noise_inference modes)
+    parser.add_argument("--noise_means", type=float, nargs="+", default=None,
+                        help="Laplacian noise mean(s), e.g. --noise_means 0 3.14 6.28")
+    parser.add_argument("--noise_scales", type=float, nargs="+", default=None,
+                        help="Laplacian noise scale(s), e.g. --noise_scales 0.01 0.1 0.5 1.0")
     # Reconstruction-specific
     parser.add_argument("--encoder_checkpoint", type=str, default=None)
     parser.add_argument("--recon_epochs", type=int, default=200)
@@ -228,6 +237,8 @@ def main():
             encoder, decoder, _get_loader_fn(),
             num_folds=NUM_FOLDS, epochs=epochs, lr=LEARNING_RATE,
             device=device, results_dir=results_dir, tag=tag,
+            noise_means=args.noise_means,
+            noise_scales=args.noise_scales,
         )
 
     # ── Reconstruction attack ────────────────────────────────────────
@@ -266,6 +277,8 @@ def main():
             results_path=os.path.join(results_dir,
                                       f"reconstruction_{args.variant}.xlsx"),
             include_lsd=is_audio,
+            noise_means=args.noise_means,
+            noise_scales=args.noise_scales,
         )
 
 

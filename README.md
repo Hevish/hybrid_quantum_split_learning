@@ -93,6 +93,11 @@ python run_experiment.py --dataset audio --mode split --variant hybrid
 
 # Audio: noise-robustness evaluation
 python run_experiment.py --dataset audio --mode noise_inference --variant classical
+
+# Custom Laplacian noise grid (reconstruction or noise_inference)
+python run_experiment.py --dataset mnist --mode reconstruction --variant classical \
+    --encoder_checkpoint results/mnist/split/encoder_classical.pt \
+    --noise_means 0 3.14 6.28 --noise_scales 0.01 0.1 0.5 1.0
 ```
 
 ## CLI Arguments
@@ -111,11 +116,15 @@ python run_experiment.py --dataset audio --mode noise_inference --variant classi
 | `--data_root` | Root path for data directories |
 | `--encoder_checkpoint` | Path to encoder `.pt` file (reconstruction mode) |
 | `--recon_epochs` | Adversary training epochs (default 200) |
+| `--noise_means` | Laplacian noise mean(s) for noise grid (e.g. `0 3.14 6.28`) |
+| `--noise_scales` | Laplacian noise scale(s) for noise grid (e.g. `0.01 0.1 1.0`) |
 
 ## Quantum Circuit
 
-2-qubit **efficient data-loading** ansatz:
-- Per layer: data encoding (RZ, RY, RZ per qubit) → trainable weights (RZ, RY, RZ per qubit) → CZ entanglement
+2-qubit **data-reuploading** ansatz with 3 stages per layer:
+1. RX(input) on each qubit → trainable RZ → CZ entanglement
+2. RX(input) on each qubit → trainable RY → CZ entanglement
+3. RX(input) on each qubit → trainable RZ
 - Tabular / N-client experiments: 1 layer
 - Image K-fold split experiments: 3 layers
 - Returns `qml.qnn.TorchLayer` for seamless PyTorch integration
