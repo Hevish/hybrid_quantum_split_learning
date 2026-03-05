@@ -78,7 +78,7 @@ pip install torch pennylane scikit-learn pandas openpyxl skimage
 # Run centralized classical on botnet_dga
 python run_experiment.py --dataset botnet_dga --mode centralized --variant classical
 
-# Run split hybrid on MNIST with 3-layer quantum circuit
+# Run split hybrid on MNIST
 python run_experiment.py --dataset mnist --mode split --variant hybrid
 
 # Run multi-client split (10 clients) on FMNIST
@@ -122,11 +122,13 @@ python run_experiment.py --dataset mnist --mode reconstruction --variant classic
 ## Quantum Circuit
 
 2-qubit **data-reuploading** ansatz with 3 stages per layer:
-1. RX(input) on each qubit → trainable RZ → CZ entanglement
-2. RX(input) on each qubit → trainable RY → CZ entanglement
-3. RX(input) on each qubit → trainable RZ
-- Tabular / N-client experiments: 1 layer
-- Image K-fold split experiments: 3 layers
+
+1. RX(input₁) on each qubit → trainable RZ → CZ entanglement
+2. RX(input₂) on each qubit → trainable RY → CZ entanglement
+3. RX(input₃) on each qubit → trainable RZ
+
+Each layer has **6 trainable parameters** (θ) and accepts **3 input dimensions**.
+
 - Returns `qml.qnn.TorchLayer` for seamless PyTorch integration
 
 ## Data Layout
