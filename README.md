@@ -8,7 +8,7 @@ across tabular, image, and audio datasets.
 
 This repository complements the following paper:
 
-> **Hybrid Quantum Split Learning for Enhanced Privacy and Scalability**
+> **A Hybrid Quantum Neural Network for Split Learning**
 >
 > Published in *Quantum Machine Intelligence* (Springer, 2025).
 >
